@@ -7,16 +7,37 @@
 #include <cctype>
 //test git
 
-bool isInteger(const std::string& s) {
-    if (s.empty()) return false;
-    size_t start = 0;
-    if (s[0] == '-' || s[0] == '+') start = 1;
-    for (size_t i = start; i < s.size(); ++i) {
-        if (!std::isdigit(s[i])) return false;
+void CheckNumType() {
+    if(std::cin.fail()){
+        throw "Wrong data type.\n";
     }
-    return true;
+}
 
+void CheckNum_b(double a, double b) {
+    if (b < a) {
+        throw "+---------------------------------------------------------------+\n"
+              "|Error: upper limit must be > lower limit and must be a number  |\n"
+              "|                    You should write it again                  |\n"
+              "+---------------------------------------------------------------+\n";
+    }
+}
 
+void CheckStepValue(double step){
+    if (step <= 0) {
+        throw "+--------------------------------------------------+\n"
+              "|Error: step must be a number that is bigger than 0|\n"
+              "|           You should write it again              |\n"
+              "+--------------------------------------------------+\n";
+    }
+}
+
+void n_Check(double x, int n){
+    if (x < 0 && n <= 3 ){
+        throw "x < 0, so n must be > 3. Please, enter n again.\n";
+    }
+    else if (x >= 0 && n <= 0) {
+        throw "x >= 0, so n must be > 0. Please, enter n again.\n";
+    }
 }
 
 
@@ -73,6 +94,8 @@ int main() {
 
         std::cin >> choice;
         
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         
         
         if (choice == 'e' || choice == 'E') {
@@ -88,86 +111,114 @@ int main() {
             continue;
         }
         while (true){
-            double a, b, step;
+            double a, b, step, x;
             int n;
-            std::cout << "+-----------------------------------------------------------------------------+\n"
-                     "| Write the lower limit (a, x), the upper limit (b), the step and n           |\n"
-                     "| Important! Value of n depends on value of x, so if x < 0, then n must be > 3|\n"
-                     "| However, if x >= 0, then n > 0                                              |\n"
-                     "+-----------------------------------------------------------------------------+\n";
+            try {
+                std::cout << "+-----------------------------------------------------------------------------+\n"
+                    "| Write the lower limit (a, x), the upper limit (b), the step and n           |\n"
+                    "| Important! Value of n depends on value of x, so if x < 0, then n must be > 3|\n"
+                    "| However, if x >= 0, then n > 0                                              |\n"
+                    "+-----------------------------------------------------------------------------+\n";
 
-            while (true) {
-                std::cout << "Enter a: ";
-                if (std::cin >> a) break;
-                std::cout << "Error: a must be a number, please write it again\n";
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            }
-
-            while (true) {
-                std::cout << "Enter b, b must be bigger than " << a << ": ";
-                if (std::cin >> b && b > a) break;
-                std::cout << "+---------------------------------------------------------------+\n"
-                         "|Error: upper limit must be > lower limit and must be a number  |\n"
-                         "|             You should write it again                         |\n"
-                         "+---------------------------------------------------------------+\n";
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            }
-
-            while (true) {
-            std::cout << "Enter step, step must be bigger than 0: ";
-                if (std::cin >> step && step > 0) break;
-                std::cout << "+--------------------------------------------------+\n"
-                         "|Error: step must be a number that is bigger than 0|\n"
-                         "|           You should write it again              |\n"
-                         "+--------------------------------------------------+\n";
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            }
-
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
-
-     
-            std::string input;
-            while (true) {
-                if (a < 0)
-                    std::cout << "x < 0, so n must be > 3: ";
-                else
-                    std::cout << "x >= 0, so n must be > 0: ";
-
-                std::cin >> input;
-
-                if (!isInteger(input)) {
-                    std::cout << "+--------------------------+\n"
-                             "|Error: n must be integer  |\n"
-                             "|You should write it again |\n"
-                             "+--------------------------+\n";
-                    continue;
+                
+                while (true) {
+                    try {
+                        std::cout << "Enter a: ";
+                        std::cin >> a;
+                        CheckNumType(); 
+                        x = a; 
+                        break; 
+                    }
+                    catch (const char* ex) {
+                        SetConsoleTextAttribute(hConsole, 12); 
+                        std::cout << ex << "\n";
+                        SetConsoleTextAttribute(hConsole, 10); 
+                        std::cin.clear();
+                        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    }
                 }
 
-                n = std::stoi(input);
-
-                if (a < 0 && n <= 3) {
-                    std::cout << "x < 0, so n must be > 3. Please, enter n again.\n";
-                    continue;
+                
+                while (true) {
+                    try {
+                        std::cout << "Enter b, b must be bigger than " << a << ": ";
+                        std::cin >> b;
+                        CheckNumType(); 
+                        CheckNum_b(a, b);
+                        break; 
+                    }
+                    catch (const char* ex) {
+                        SetConsoleTextAttribute(hConsole, 12);
+                        std::cout << ex << "\n";
+                        SetConsoleTextAttribute(hConsole, 10);
+                        std::cin.clear();
+                        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    }
                 }
-                if (a >= 0 && n <= 0) {
-                    std::cout << "x >= 0, so n must be > 0. Please, enter n again.\n";
-                    continue;
+
+                while (true) {
+                    try {
+                        std::cout << "Enter step, step must be bigger than 0: ";
+                        std::cin >> step;
+                        CheckNumType();
+                        CheckStepValue(step);
+                        break;
+                    }
+                    catch (const char* ex) {
+                        SetConsoleTextAttribute(hConsole, 12);
+                        std::cout << ex << "\n";
+                        SetConsoleTextAttribute(hConsole, 10);
+                        std::cin.clear();
+                        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    }
                 }
 
-                break;
-            }
+                
 
-        
-            double x = a;
-            while (x <= b) {
-                long double y = calculateY(x, n);
-                std::cout << "x = " << x << ", y = " << y << std::endl;
-                x += step;
+                while (true) {
+                    try {
+                        std::cout << "Enter n (n > 3 for x < 0; n > 0 for x >= 0): ";
+                        std::cin >> n;
+                        CheckNumType();
+                        n_Check(a, n); 
+                        break; 
+                    }
+                    catch (const char* ex) {
+                        SetConsoleTextAttribute(hConsole, 12);
+                        std::cout << ex << "\n";
+                        SetConsoleTextAttribute(hConsole, 10);
+                        std::cin.clear();
+                        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                       
+                    }
+                }
+                
+               while (x <= b) {
+                    long double y = calculateY(x, n);
+                    std::cout << "x = " << x << ", y = " << y << std::endl;
+                    x += step;
+               }
             }
+            catch (const char* ex) {
+                SetConsoleTextAttribute(hConsole, 12); 
+                std::cout << ex << "\n";
+                SetConsoleTextAttribute(hConsole, 10);
+                
+                std::cin.clear(); 
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
+                continue;
+            }
+            catch(...){
+                SetConsoleTextAttribute(hConsole, 12);
+                std::cout << "An unknown error occurred.\n";
+                SetConsoleTextAttribute(hConsole, 10);
+
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+                continue;
+            }
             std::cout << "Now type any key to continue\n";
             std::cin >> temp_answer;
 
