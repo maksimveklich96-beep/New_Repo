@@ -177,11 +177,20 @@ int main() {
 
                 while (true) {
                     try {
-                        std::cout << "Enter n (n > 3 for x < 0; n > 0 for x >= 0): ";
-                        std::cin >> n;
-                        CheckNumType();
-                        n_Check(a, n); 
-                        break; 
+                        if (x < 0) {
+                            std::cout << "Enter n > 3";
+                            std::cin >> n;
+                            CheckNumType();
+                            n_Check(x, n);
+                            break;
+                        }
+                        else if (x >= 0) {
+                            std::cout << "Enter n > 0";
+                            std::cin >> n;
+                            CheckNumType();
+                            n_Check(x, n);
+                            break;
+                        }
                     }
                     catch (const char* ex) {
                         SetConsoleTextAttribute(hConsole, 12);
