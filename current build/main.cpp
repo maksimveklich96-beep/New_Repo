@@ -65,6 +65,7 @@ long double calculateY(double x, int n) {
     return result;
 }
 
+#ifndef _UNITTEST
 int main() {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hConsole, 10);
@@ -257,3 +258,4 @@ int main() {
 
         return 0;
     }
+#endif

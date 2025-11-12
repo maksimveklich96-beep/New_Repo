@@ -10,7 +10,7 @@ namespace UnitTestforSEproject
 	{
 	public:
 
-		TEST_METHOD(TestcalculateY)
+		TEST_METHOD(TestcalculateY_TrueAnswer)
 		{
 			double x = -1.0;
 			int n = 3;
@@ -21,7 +21,19 @@ namespace UnitTestforSEproject
 
 			Assert::AreEqual(expected_y, actual_y, 0.0001);
 		}
+	public:
 
+		TEST_METHOD(Testcalculate_WrongAnswer)
+		{
+			double x = -1.0;
+			int n = 3;
+
+			long double expected_y = 0.0;
+
+			long double actual_y = calculateY(x, n);
+
+			Assert::AreEqual(expected_y, actual_y, 0.0001);
+		}
 	public:
 
 		TEST_METHOD(CheckNum_b_get_a_smaller_than_b_exceptionNotThrown)
@@ -52,7 +64,7 @@ namespace UnitTestforSEproject
 		}
 	public:
 
-		TEST_METHOD(CheckStepValue_get7_exceptionThrown)
+		TEST_METHOD(CheckStepValue_get7_exceptionNotThrown)
 		{
 			double step = 7;
 			try {
@@ -79,7 +91,7 @@ namespace UnitTestforSEproject
 		}
 	public:
 
-		TEST_METHOD(n_Check_get_negative_x_and_n_bigger_than_3)
+		TEST_METHOD(n_Check_get_negative_x_and_n_bigger_than_3_ExceptionNotThrown)
 		{
 			
 			double x = -3;
@@ -94,7 +106,7 @@ namespace UnitTestforSEproject
 		}
 	public:
 
-		TEST_METHOD(n_Check_get_positive_x_and_n_smaller_than_3)
+		TEST_METHOD(n_Check_get_positive_x_and_n_smaller_than_3_ExceptionThrown)
 		{
 
 			double x = 6;
@@ -109,7 +121,7 @@ namespace UnitTestforSEproject
 		}
 	public:
 
-		TEST_METHOD(n_Check_get_positive_x_and_n_bigger_than_0)
+		TEST_METHOD(n_Check_get_positive_x_and_n_bigger_than_0_ExceptionNotThrown)
 		{
 
 			double x = 2;
@@ -124,7 +136,7 @@ namespace UnitTestforSEproject
 		}
 	public:
 
-		TEST_METHOD(n_Check_get_negative_x_and_negative_n)
+		TEST_METHOD(n_Check_get_p_x_and_negative_n_ExceptionThrown)
 		{
 
 			double x = -4;
